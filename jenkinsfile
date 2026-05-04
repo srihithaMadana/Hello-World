@@ -1,0 +1,21 @@
+groovy 
+pipeline
+agent any
+triggers{
+    PollSCM('H/5****')
+    cron('H D ****')
+}
+stages{
+    stage('Compile'){
+        steps{
+            sh 'javac -d bin src/App/java'
+            sh 'javac -d bin -cp bin test/AppTest.java'
+        }
+    }
+    stage('Run'){
+        steps{
+            sh 'java -cp bin App'
+            sh 'javac -cp AppTest'
+        }
+    }
+}
